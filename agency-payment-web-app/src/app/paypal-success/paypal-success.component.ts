@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import axios from 'axios';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-paypal-success',
@@ -9,11 +11,17 @@ export class PaypalSuccessComponent implements OnInit {
 
   constructor() { }
 
+  transaction = {id: "", amount:"", description: ""}
+
   ngOnInit(): void {
   }
 
-  close() {
-    window.close()
+  saveTransactionOnPSP() {
+    axios.post(environment.PSPAPI + 'PayPalTransaction', this.transaction)
+    .then(res => {
+      console.log("success")
+    })
   }
+
 
 }

@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   PayPalAPI: 'http://localhost:9090/',
+  PSPAPI: 'http://localhost:9091/',
 };
 
 /*

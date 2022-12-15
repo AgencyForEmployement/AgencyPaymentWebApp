@@ -12,8 +12,4 @@ export class PaypalFailComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  close() {
-    window.close()
-  }
-
 }
