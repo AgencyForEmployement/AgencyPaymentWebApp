@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { PaypalSuccessComponent } from './paypal-success/paypal-success.component';
 import { PaypalFailComponent } from './paypal-fail/paypal-fail.component';
 import { OptionsComponent } from './options/options.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -20,7 +21,7 @@ import { OptionsComponent } from './options/options.component';
     AppRoutingModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent,]
 })
 export class AppModule { }

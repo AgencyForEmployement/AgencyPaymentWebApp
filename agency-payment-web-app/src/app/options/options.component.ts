@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-options',
@@ -9,21 +10,22 @@ import { environment } from 'src/environments/environment';
 })
 export class OptionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private cookieService: CookieService) { }
 
-  order = {price: "10", description: "webshop item name"}
+  order = {price: "0", description: "webshop item name"}
 
   ngOnInit(): void {
     setTimeout(()=>{
-      this.order.price = JSON.parse(localStorage.getItem('price') || '10');
-      this.order.description = JSON.parse(localStorage.getItem('description') || 'webshop item name');
-  }, 100);
+      this.order.price = this.cookieService.get('price')
+      this.order.description = this.cookieService.get('description')
+  }, 10);
   }
 
   payWithPayPal() {
     axios.post(environment.PayPalAPI + 'pay', this.order)
     .then(response => {
-      console.log(response.data)
+      this.cookieService.delete('description')
+      this.cookieService.delete('price')
       window.location.href = response.data;
     })
     .catch(e => {
