@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { CookieService } from 'ngx-cookie-service';
+import { ConstantPool } from '@angular/compiler';
 
 @Component({
   selector: 'app-options',
@@ -12,16 +13,18 @@ export class OptionsComponent implements OnInit {
 
   constructor(private cookieService: CookieService) { }
 
-  order = {price: "0", description: "webshop item name"}
+  order = {price: "", description: ""}
 
   ngOnInit(): void {
     setTimeout(()=>{
       this.order.price = this.cookieService.get('price')
       this.order.description = this.cookieService.get('description')
+      console.log(this.order.price)
   }, 10);
   }
 
   payWithPayPal() {
+    if (this.order.price != "" && this.order.description != ""){
     axios.post(environment.PayPalAPI + 'pay', this.order)
     .then(response => {
       this.cookieService.delete('description')
@@ -31,5 +34,7 @@ export class OptionsComponent implements OnInit {
     .catch(e => {
      console.log(e.response.data)
     })
+  } else 
+    alert("Payment not possible, you were not redirected here.")
   }
 }
