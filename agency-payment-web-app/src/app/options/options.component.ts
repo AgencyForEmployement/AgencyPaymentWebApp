@@ -13,12 +13,15 @@ export class OptionsComponent implements OnInit {
 
   constructor(private cookieService: CookieService) { }
 
-  order = {price: "", description: ""}
+  order = {price: "", description: "", pib: "", merchantOrderId: "",merchantOrderTimestamp: "" }
 
   ngOnInit(): void {
     setTimeout(()=>{
       this.order.price = this.cookieService.get('price')
       this.order.description = this.cookieService.get('description')
+      this.order.pib = this.cookieService.get('pib')
+      this.order.merchantOrderId = this.cookieService.get('merchantOrderId')
+      this.order.merchantOrderTimestamp = this.cookieService.get('merchantOrderTimestamp')
       console.log(this.order.price)
   }, 10);
   }
@@ -36,5 +39,25 @@ export class OptionsComponent implements OnInit {
     })
   } else 
     alert("Payment not possible, you were not redirected here.")
+  }
+
+  payWithCreditCard(){
+    if (this.order.price != "" && this.order.description != ""){
+      axios.post(environment.PSP + 'bank', this.order)
+      .then(response => {
+        document.cookie = 'paymentId =' + response.data.paymentId.toString();
+        document.cookie = 'description =' + this.order.description.toString();
+        document.cookie = 'amount =' + response.data.amount.toString();
+        document.cookie = 'successUrl =' + response.data.successUrl.toString();
+        document.cookie = 'failedUrl =' + response.data.failedUrl.toString();
+        document.cookie = 'errorUrl =' + response.data.errorUrl.toString();
+        alert(response.data.paymentURL)
+        window.location.href = response.data.paymentURL;
+      })
+      .catch(e => {
+       console.log(e.response.data)
+      })
+    } else 
+      alert("Payment not possible, you were not redirected here.")
   }
 }
