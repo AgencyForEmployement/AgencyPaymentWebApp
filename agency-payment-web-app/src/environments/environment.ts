@@ -5,8 +5,11 @@
 export const environment = {
   production: false,
   PayPalAPI: 'http://localhost:9090/',
-  PSPAPI: 'http://localhost:9091/',
-  PSP: 'http://localhost:8081/'
+  PSP: 'http://localhost:8081/',
+  PSPAPI: 'http://localhost:8081/',
+  BitcoinAPI: 'http://localhost:9092/',
+  CoingateAPI: 'https://api-sandbox.coingate.com/v2/orders',
+  CoingateKey: 'eZ6EVzx2TH9x4MyG2xTx4_p2r58o5PaLi7ZRgxsK',
 };
 
 /*

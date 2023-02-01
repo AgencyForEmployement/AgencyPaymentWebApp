@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { ConstantPool } from '@angular/compiler';
 
 @Component({
   selector: 'app-options',
@@ -25,6 +24,12 @@ export class OptionsComponent implements OnInit {
       console.log(this.order.price)
   }, 10);
   }
+
+  randomString(length:number, chars:string) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}
 
   payWithPayPal() {
     if (this.order.price != "" && this.order.description != ""){
