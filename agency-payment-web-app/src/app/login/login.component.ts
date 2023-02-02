@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   info = {pib: "", password: ""}
   registerInfo = {
-                  pib: "123456", 
+                  pib: "08144249", 
                   name: "Agency", 
                   description: "Employment Agency", 
                   password: "agency", 
