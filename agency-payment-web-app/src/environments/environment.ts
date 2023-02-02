@@ -5,7 +5,6 @@
 export const environment = {
   production: false,
   PayPalAPI: 'http://localhost:9090/',
-  PSP: 'http://localhost:8081/',
   PSPAPI: 'http://localhost:8081/',
   BitcoinAPI: 'http://localhost:9092/',
   CoingateAPI: 'https://api-sandbox.coingate.com/v2/orders',

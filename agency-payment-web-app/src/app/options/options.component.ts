@@ -13,6 +13,7 @@ export class OptionsComponent implements OnInit {
   constructor(private cookieService: CookieService) { }
 
   order = {price: "", description: "", pib: "", merchantOrderId: "",merchantOrderTimestamp: "" }
+  client = ""
 
   ngOnInit(): void {
     setTimeout(()=>{
@@ -21,6 +22,7 @@ export class OptionsComponent implements OnInit {
       this.order.pib = this.cookieService.get('pib')
       this.order.merchantOrderId = this.cookieService.get('merchantOrderId')
       this.order.merchantOrderTimestamp = this.cookieService.get('merchantOrderTimestamp')
+      this.client = this.cookieService.get('client')
       console.log(this.order.price)
   }, 10);
   }
@@ -48,7 +50,7 @@ export class OptionsComponent implements OnInit {
 
   payWithCreditCard(){
     if (this.order.price != "" && this.order.description != ""){
-      axios.post(environment.PSP + 'bank', this.order)
+      axios.post(environment.PSPAPI + 'bank', this.order)
       .then(response => {
         document.cookie = 'paymentId =' + response.data.paymentId.toString();
         document.cookie = 'description =' + this.order.description.toString();
@@ -65,4 +67,27 @@ export class OptionsComponent implements OnInit {
     } else 
       alert("Payment not possible, you were not redirected here.")
   }
+  payWithQRCode() {
+    if (this.order.price != "" && this.order.description != ""){
+      console.log(this.order);
+      axios.post(environment.PSPAPI + 'bank', this.order)
+      .then(response => {
+        document.cookie = 'paymentId =' + response.data.paymentId.toString();
+        document.cookie = 'description =' + this.order.description.toString();
+        document.cookie = 'amount =' + response.data.amount.toString();
+        document.cookie = 'successUrl =' + response.data.successUrl.toString();
+        document.cookie = 'failedUrl =' + response.data.failedUrl.toString();
+        document.cookie = 'errorUrl =' + response.data.errorUrl.toString();
+        document.cookie = 'client=' + this.client;
+        console.log(response);
+        console.log(document.cookie)
+        window.open('http://localhost:4203/qr-code', "_blank");
+      })
+      .catch(e => {
+       console.log(e)
+      })
+    } else 
+      alert("Payment not possible, you were not redirected here.")    
+  }
+    
 }
